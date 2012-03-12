@@ -2,7 +2,7 @@
 
 *Was translated by Google.*
 
-Is a plug-in to generate the navigation simple.
+This plugin will generate a simple menu navigation.
 
 ## Feature
 
