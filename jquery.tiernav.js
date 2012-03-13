@@ -28,6 +28,7 @@
 			bgcolor    : '#eee',
 			opacity    : 0.7
 		};
+	var instCount = 0;
 	
 	function Plugin(element, options){
 		this.element = element;
@@ -42,7 +43,8 @@
 		if (this.element.nodeName.toLowerCase() != 'ul') return;
 		
 		var nav = $(this.element);
-		var id = nav.attr('id');
+		var id = nav.attr('id') || this._name + (++instCount);
+		nav.attr('id', id);
 		var sid = '#' + id;
 		var $$ = this.options;
 		
@@ -64,9 +66,9 @@
 			sid + ' li a { opacity:' + $$.opacity + '; filter:alpha(opacity=' + ($$.opacity * 10) + '); }'
 		]).join('\n');
 		
-		var style = $('<style type="text/css">' + css + '</style>');
+		var style = $('<style id="' + this._name + '-css" type="text/css">' + css + '</style>');
 		
-		$('head style:first').before(style);
+		$('head').prepend(style);
 		
 		// First-tier.
 		nav.find('>li').each(function(){
