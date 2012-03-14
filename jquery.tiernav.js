@@ -2,7 +2,7 @@
  * TierNav - jQuery Plugin
  * https://github.com/miriyau/jquery.tiernav
  *
- * Version: 1.0.3 (2012/03/14)
+ * Version: 1.0.4 (2012/03/14)
  * Requires: jQuery v1.3+
  *
  * Copyright ©2012, miriyau
@@ -12,7 +12,7 @@
 ;(function($, window, document, undefined){
 	
 	//var isIE = /*@cc_on!@*/false;
-	var isIE = $.browser.msie;
+	var isIE = $.browser.msie && $.browser.version < 9;
 	var isIE6 = $.browser.msie && $.browser.version < 7 && !window.XMLHttpRequest; // Quote from jquery.fancybox-1.3.4.js.
 	
 	var pluginName = 'TierNav'.toLowerCase(),
@@ -53,6 +53,8 @@
 		var id = nav.attr('id') || this._name + (++instCount);
 		nav.attr('id', id);
 		var sid = '#' + id;
+		
+		nav.find('ul').hide();
 		
 		var css = [
 			sid + ':after { content:"."; display:block; height:0; clear:both; visibility:hidden; }',
@@ -149,8 +151,6 @@
 				$$.fadeIn && !isIE ? ul.fadeIn($$.fadeSpeed) : ul.show();
 			}, $$.interval);
 		}
-		
-		nav.find('ul').hide();
 	};
 	
 	$.fn[pluginName] = function(options){
