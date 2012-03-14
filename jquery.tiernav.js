@@ -2,7 +2,7 @@
  * TierNav - jQuery Plugin
  * https://github.com/miriyau/jquery.tiernav
  *
- * Version: 1.0.2 (2012/03/13)
+ * Version: 1.0.3 (2012/03/14)
  * Requires: jQuery v1.3+
  *
  * Copyright ©2012, miriyau
@@ -11,25 +11,28 @@
  */
 ;(function($, window, document, undefined){
 	
-	var isIE = /*@cc_on!@*/false;
+	//var isIE = /*@cc_on!@*/false;
+	var isIE = $.browser.msie;
 	var isIE6 = $.browser.msie && $.browser.version < 7 && !window.XMLHttpRequest; // Quote from jquery.fancybox-1.3.4.js.
 	
 	var pluginName = 'TierNav'.toLowerCase(),
 		defaults = {
 			width      : '150px',
 			upper      : false,
-			fadeIn     : true,
-			fadeOut    : true,
+			fadeIn     : true,	// If false, use the show() function instead.
+			fadeOut    : true,	// If false, use the hide() function instead.
 			fadeSpeed  : 'fast',
 			hoverClass : 'hover',
 			nextClass  : 'next',
 			nextMark   : true,
-			nextText   : '&nbsp;&raquo;',
+			nextText   : '&nbsp;&raquo;',	// "&amp;nbsp;&amp;raquo;"
+			margin     : '2px',
 			padding    : '5px 10px',
 			color      : '#000',
 			bgcolor    : '#eee',
 			opacity    : 0.7,
-			firstClass : 'first'
+			firstClass : 'first',
+			interval   : 500	// Monitoring interval of hidden menu. If 0, do not monitor.
 		};
 	var instCount = 0;
 	
@@ -56,6 +59,7 @@
 			sid + ' { display:inline-block; }',
 			sid + ' { display:block; }',
 			sid + ' { list-style:none; position:relative; margin:0; padding:0; }',
+			sid + ' a { margin-right:' + $$.margin + '; margin-' + ($$.upper ? 'bottom:' : 'top:') + $$.margin + '; }',
 			sid + ' ul { list-style:none; width:' + $$.width + '; position:absolute; margin:0; padding:0; }',
 			sid + ' li { position:relative; width:' + $$.width + '; float:left; margin:0; padding:0; }',
 			sid + ' ul li { float:none; width:inherit; }',
@@ -120,8 +124,7 @@
 				var li = $(this);
 				li.addClass(hcls).find('>a').addClass(hcls);
 				
-				//var ul = li.find('ul:first:not(:animated)');
-				var ul = li.find('ul:first');
+				var ul = li.find('ul:first:not(:animated)');
 				if (!ul.length) return;
 				
 				$$.fadeIn && !isIE ? ul.fadeIn($$.fadeSpeed) : ul.show();
@@ -137,6 +140,15 @@
 				$$.fadeOut && !isIE ? ul.fadeOut($$.fadeSpeed) : ul.hide();
 			}
 		);
+		
+		if ($$.interval) {
+			setInterval(function(){
+				var ul = nav.find('li.' + $$.hoverClass).find('ul:first:not(:visible)');
+				if (!ul.length) return;
+				
+				$$.fadeIn && !isIE ? ul.fadeIn($$.fadeSpeed) : ul.show();
+			}, $$.interval);
+		}
 		
 		nav.find('ul').hide();
 	};

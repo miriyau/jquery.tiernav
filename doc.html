@@ -39,7 +39,7 @@
 <h2>Usage</h2>
 <pre id="html" class="brush:html;toolbar:false;">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script type="text/javascript" src="jquery.tiernav.min.js"></script>
+<script type="text/javascript" src="jquery.tiernav.js"></script>
 </pre>
 <pre id="usage" class="brush:js;toolbar:false;">
 $(function(){
@@ -54,26 +54,32 @@ $(function(){
         nextClass  : 'next',
         nextMark   : true,
         nextText   : '&nbsp;&raquo;',        // "&amp;nbsp;&amp;raquo;"
+        margin     : '2px',
         padding    : '5px 10px',
+        color      : '#000',
         bgcolor    : '#eee',
-        opacity    : 0.7
+        opacity    : 0.7,
+        firstClass : 'first',
+        interval   : 500          // Monitoring interval of hidden menu. If 0, do not monitor.
     });
 });
 </pre>
 
 <h2>Override CSS</h2>
 <pre id="css" class="brush:css;toolbar:false;">
-#nav li a.nav1st { background-color:#eef; } /* First tier class "id" + "1st" */
-#nav li a        { background-color:#fee; } /* Other tier */
-#nav li a.hover  { background-color:#efe; } /* hoverClass */
-/* More */
-#nav #menu2 { width:200px; }
-#nav li a   { margin:2px 2px 0 0; } /* IE6 can not be */
+/* background-color */
+#nav li a.first { background-color:#eef; } /* firstClass */
+#nav li a       { background-color:#fee; } /* Other tier */
+#nav li a.hover { background-color:#efe; } /* hoverClass */
+/* first-tier (auto numbering 0 to li.length) */
+#nav li.first0 a.first0 { background-color:#fdd; }
+#nav li.first2 { width:220px; }
+#nav li.first2 a.first2 { background-color:#ddf; }
 </pre>
 
 <h2>Result</h2>
 <ul id="nav">
-	<li id="menu1"><a href="#">Menu-1</a>
+	<li><a href="#">Menu-1</a>
 		<ul>
 			<li><a href="#">Menu-1-1</a></li>
 			<li><a href="#">Menu-1-2</a></li>
@@ -82,7 +88,7 @@ $(function(){
 			<li><a href="#">Menu-1-5</a></li>
 		</ul>
 	</li>
-	<li id="menu2"><a href="#">Menu-2</a>
+	<li><a href="#">Menu-2</a>
 		<ul>
 			<li><a href="#">Menu-2-1</a>
 				<ul>
